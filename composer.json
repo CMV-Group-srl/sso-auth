@@ -1,0 +1,26 @@
+{
+    "name": "cmv-group-srl/sso-auth",
+    "description": "Authentication for a centrilized single-sign-on system",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gilles Carlevaris",
+            "email": "g.carlevaris@cmvgroup.it"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Cmvgroup\\SSOAuth\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Cmvgroup\\SSOAuth\\SSOAuthServiceProvider"
+            ]
+        }
+    },
+    "version": "0.0.2"
+}
