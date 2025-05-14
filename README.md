@@ -13,13 +13,12 @@ In your project composer.json file, add the following line:
 }
 ```
 ```json
-"prefer-stable": true,
-    "repositories": [
-        {
-        "type": "vcs",
-        "url": "https://github.com/Cmv-Group-srl/sso-auth"
-        }
-    ]
+"repositories": [
+    {
+    "type": "vcs",
+    "url": "https://github.com/Cmv-Group-srl/sso-auth.git"
+    }
+]
 ```
 Then run the `composer update` command.
 
