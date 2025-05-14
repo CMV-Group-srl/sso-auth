@@ -1,6 +1,6 @@
 {
     "name": "cmv-group-srl/sso-auth",
-    "description": "Authentication for a centrilized single-sign-on system",
+    "description": "Authentication for a centralized single-sign-on system",
     "license": "MIT",
     "authors": [
         {
