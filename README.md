@@ -22,6 +22,12 @@ In your project composer.json file, add the following line:
 ```
 Then run the `composer update` command.
 
+Publish the configuration file in order to change the default values:
+
+```bash
+php artisan vendor:publish --provider="Cmvgroup\SSOAuth\SSOAuthServiceProvider"
+```
+
 ## Usage
 
 The package provides a `api` guard that automatically retrieves the user from a centralized API.
@@ -48,12 +54,6 @@ To protext the routes, you can use the `AuthenticateWithApi` middleware:
 Route::middleware('auth.api')->get('/user', function (Request $request) {
     return $request->user();
 });
-```
-
-Optionally, you could publish the configuration file in order to change the default values:
-
-```bash
-php artisan vendor:publish --provider="Cmvgroup\SSOAuth\SSOAuthServiceProvider"
 ```
 
 ## Configuration
