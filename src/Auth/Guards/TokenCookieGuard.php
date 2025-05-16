@@ -107,7 +107,7 @@ class TokenCookieGuard implements Guard
 
                 // Restituisci oggetto utente da provider (opzionale)
                 //return $this->provider->retrieveById($userData['ID_UTENTE']);
-                return $userData;
+                return new \ArrayObject($userData, \ArrayObject::ARRAY_AS_PROPS);
             }
         } catch (\Exception $e) {;
             

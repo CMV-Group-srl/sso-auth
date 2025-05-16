@@ -28,6 +28,13 @@ class AuthController extends Controller
             ->withCookie('auth_token', $token );
     }
 
+    public function login()
+    {
+        return redirect()
+                ->away( config('sso-auth.sso_url')
+                    . config('sso-auth.login_page', '/') );
+    }
+
     public function logout()
     {
         $token = request()->cookie('auth_token');
