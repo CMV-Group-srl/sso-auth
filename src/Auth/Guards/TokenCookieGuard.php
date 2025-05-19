@@ -60,8 +60,8 @@ class TokenCookieGuard implements Guard
 
     public function id()
     {
-        //return $this->user() ? $this->user()->getAuthIdentifier() : null;
-        return $this->user() ? $this->user()->ID_UTENTE : null;
+        return $this->user() ? $this->user()->getAuthIdentifier() : null;
+        //return $this->user() ? $this->user()->ID_UTENTE : null;
     }
 
     public function validate(array $credentials = [])

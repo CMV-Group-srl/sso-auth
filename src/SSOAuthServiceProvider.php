@@ -6,6 +6,7 @@ use Cmvgroup\SSOAuth\Auth\Guards\TokenCookieGuard;
 use Cmvgroup\SSOAuth\Http\Middleware\AuthenticateWithApi;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider;
 use Illuminate\Support\Facades\Auth;
+use Cmvgroup\SSOAuth\Auth\Providers\ApiUserProvider;
 
 class SSOAuthServiceProvider extends AuthServiceProvider
 {
@@ -43,11 +44,18 @@ class SSOAuthServiceProvider extends AuthServiceProvider
             return new TokenCookieGuard($provider, $request, $config['cookie'] ?? 'auth_token');
         });
 
+        Auth::provider('api-user', function ($app, array $config) {
+            return new ApiUserProvider();
+        });
+
         // Fai il merge della configurazione per aggiungere la nuova guard dinamicamente
         config([
+            'auth.providers.api_users' => [
+                'driver' => 'api-user',
+            ],
             'auth.guards.api' => [
                 'driver' => 'cookie_token',
-                'provider' => 'users',
+                'provider' => 'api_users',
                 'cookie' => 'auth_token', // opzionale
             ],
         ]);

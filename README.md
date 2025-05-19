@@ -30,7 +30,7 @@ php artisan vendor:publish --provider="Cmvgroup\SSOAuth\SSOAuthServiceProvider"
 
 ## Usage
 
-The package provides a `api` guard that automatically retrieves the user from a centralized API.
+The package provides a `api` guard (and a `api_users` provider) that automatically retrieves the user from a centralized API.
 
 If you want to add your own guard to the `auth.php` configuration file, you can use the `cookie_token` driver:
 
@@ -43,15 +43,15 @@ If you want to add your own guard to the `auth.php` configuration file, you can 
 
     'api' => [
         'driver' => 'cookie_token',
-        'provider' => 'users',
+        'provider' => 'api_users',
     ],
 ],
 ```
 
-To protext the routes, you can use the `AuthenticateWithApi` middleware:
+To protext the routes, you can use the `AuthenticateWithApi` middleware (`api.user`) or with the `auth('api')` helper:
 
 ```php
-Route::middleware('auth.api')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 ```
@@ -64,7 +64,7 @@ You can configure the guard by setting the `cookie` option in the `auth.php` con
 'guards' => [
     'api' => [
         'driver' => 'cookie_token',
-        'provider' => 'users',
+        'provider' => 'api_users',
         'cookie' => 'auth_token',
     ],
 ],
