@@ -5,7 +5,7 @@ namespace Cmvgroup\SSOAuth\Auth\Providers;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Http;
-use App\Auth\ApiUser;
+use Cmvgroup\SSOAuth\Auth\ApiUser;
 
 class ApiUserProvider implements UserProvider
 {
@@ -40,5 +40,10 @@ class ApiUserProvider implements UserProvider
     {
         // già gestito in retrieveByCredentials (se vuoi separare login/validazione, modificalo)
         return true;
+    }
+
+    public function rehashPasswordIfRequired(Authenticatable $user, #[\SensitiveParameter] array $credentials, bool $force = false)
+    {
+        return;
     }
 }
