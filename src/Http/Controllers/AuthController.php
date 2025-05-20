@@ -24,8 +24,26 @@ class AuthController extends Controller
         $token = $request->input('token');
         $path = $request->path ?? '/';
 
+        // Imposta il dominio base con un punto all'inizio
+        $domain = config('session.domain'); // Ottieni dal file config/session.php
+        
+        // Se il dominio non è configurato, prova a dedurlo dalla richiesta
+        if (!$domain) {
+            // Estrae il dominio principale dalla richiesta
+            // Ad esempio, da "admin.example.com" ottiene ".example.com"
+            $hostParts = explode('.', $request->getHost());
+            
+            // Se il dominio ha almeno 2 parti (es. example.com)
+            if (count($hostParts) >= 2) {
+                // Rimuovi i sottodomini e aggiungi il punto iniziale
+                $domain = '.' . implode('.', array_slice($hostParts, -2));
+            }
+        }
+
+        $cookie = Cookie::make('auth_token', $token, 120, path:'/', domain: $domain );
+
         return redirect($path)
-            ->withCookie('auth_token', $token );
+            ->withCookie($cookie);
     }
 
     public function login()
@@ -35,12 +53,28 @@ class AuthController extends Controller
                     . config('sso-auth.login_page', '/') );
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         $token = request()->cookie('auth_token');
         Cache::forget('auth_user_' . md5($token));
+
+        // Imposta il dominio base con un punto all'inizio
+        $domain = config('session.domain'); // Ottieni dal file config/session.php
+        
+        // Se il dominio non è configurato, prova a dedurlo dalla richiesta
+        if (!$domain) {
+            // Estrae il dominio principale dalla richiesta
+            // Ad esempio, da "admin.example.com" ottiene ".example.com"
+            $hostParts = explode('.', $request->getHost());
+            
+            // Se il dominio ha almeno 2 parti (es. example.com)
+            if (count($hostParts) >= 2) {
+                // Rimuovi i sottodomini e aggiungi il punto iniziale
+                $domain = '.' . implode('.', array_slice($hostParts, -2));
+            }
+        }
        
-        return back()->withoutCookie('auth_token');
+        return back()->withoutCookie('auth_token', '/', $domain);
     }
      
 }

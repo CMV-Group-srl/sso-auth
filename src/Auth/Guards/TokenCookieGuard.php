@@ -101,15 +101,8 @@ class TokenCookieGuard implements Guard
     
     private function getUserFromApi($token) {
         try {
-            $response = Http::withToken($token)->get(config('sso-auth.sso_url') . config('sso-auth.user_url'));
-            
-            if ($response->successful()) {
-                $userData = $response->json();
 
-                // Restituisci oggetto utente da provider (opzionale)
-                //return $this->provider->retrieveById($userData['ID_UTENTE']);
-                return new \ArrayObject($userData, \ArrayObject::ARRAY_AS_PROPS);
-            }
+            return $this->provider->retrieveByToken($token);
         } catch (\Exception $e) {;
             
             // Logga in caso di problemi con l'API

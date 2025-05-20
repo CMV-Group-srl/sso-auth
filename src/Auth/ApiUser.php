@@ -20,12 +20,16 @@ class ApiUser implements Authenticatable
 
     public function getAuthIdentifier()
     {
-        return $this->attributes['ID_UTENTE'] ?? null;
+        return $this->attributes[$this->getAuthIdentifierName()] ?? null;
+    }
+
+    public function getAuthPasswordName() {
+        return 'PASSWORD2';
     }
 
     public function getAuthPassword()
     {
-        return $this->attributes['PASSWORD2'] ?? null;
+        return $this->attributes[$this->getAuthPasswordName()] ?? null;
     }
 
     public function getRememberToken()
