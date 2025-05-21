@@ -8,10 +8,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
+use Cmvgroup\SSOAuth\Classes\ApiCookie;
 
 class AuthController extends Controller
 {
@@ -24,23 +24,7 @@ class AuthController extends Controller
         $token = $request->input('token');
         $path = $request->path ?? '/';
 
-        // Imposta il dominio base con un punto all'inizio
-        $domain = config('session.domain'); // Ottieni dal file config/session.php
-        
-        // Se il dominio non è configurato, prova a dedurlo dalla richiesta
-        if (!$domain) {
-            // Estrae il dominio principale dalla richiesta
-            // Ad esempio, da "admin.example.com" ottiene ".example.com"
-            $hostParts = explode('.', $request->getHost());
-            
-            // Se il dominio ha almeno 2 parti (es. example.com)
-            if (count($hostParts) >= 2) {
-                // Rimuovi i sottodomini e aggiungi il punto iniziale
-                $domain = '.' . implode('.', array_slice($hostParts, -2));
-            }
-        }
-
-        $cookie = Cookie::make('auth_token', $token, 120, path:'/', domain: $domain );
+        $cookie = ApiCookie::make('auth_token', $token, config('session.lifetime', 120));
 
         return redirect($path)
             ->withCookie($cookie);
@@ -58,23 +42,10 @@ class AuthController extends Controller
         $token = request()->cookie('auth_token');
         Cache::forget('auth_user_' . md5($token));
 
-        // Imposta il dominio base con un punto all'inizio
-        $domain = config('session.domain'); // Ottieni dal file config/session.php
         
-        // Se il dominio non è configurato, prova a dedurlo dalla richiesta
-        if (!$domain) {
-            // Estrae il dominio principale dalla richiesta
-            // Ad esempio, da "admin.example.com" ottiene ".example.com"
-            $hostParts = explode('.', $request->getHost());
-            
-            // Se il dominio ha almeno 2 parti (es. example.com)
-            if (count($hostParts) >= 2) {
-                // Rimuovi i sottodomini e aggiungi il punto iniziale
-                $domain = '.' . implode('.', array_slice($hostParts, -2));
-            }
-        }
+        ApiCookie::expire('auth_token');
        
-        return back()->withoutCookie('auth_token', '/', $domain);
+        return back();
     }
      
 }

@@ -4,6 +4,7 @@ namespace Cmvgroup\SSOAuth\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Cmvgroup\SSOAuth\Classes\ApiCookie;
 
 class AuthenticateWithApi
 {
@@ -23,6 +24,9 @@ class AuthenticateWithApi
                     . '?callback=' . urlencode(request()->fullUrl()));
         }
 
-        return $next($request);
+        $token = request()->cookie('auth_token');
+        $cookie = ApiCookie::make('auth_token', $token, config('session.lifetime', 120));
+
+        return $next($request)->withCookie($cookie);
     }
 }

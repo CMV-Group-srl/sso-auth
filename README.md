@@ -48,7 +48,15 @@ If you want to add your own guard to the `auth.php` configuration file, you can 
 ],
 ```
 
-To protext the routes, you can use the `AuthenticateWithApi` middleware (`api.user`) or with the `auth('api')` helper:
+To protext the routes, you can use the `AuthenticateWithApi` middleware (`api.user`) or, if you don't need a renew of the tookie expiration date, you could use with the `auth:api` middleware:
+
+```php
+Route::middleware('auth.api')->get('/user', function (Request $request) {
+    return $request->user();
+});
+```
+
+or
 
 ```php
 Route::middleware('auth:api')->get('/user', function (Request $request) {
