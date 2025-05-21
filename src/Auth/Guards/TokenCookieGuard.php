@@ -102,7 +102,7 @@ class TokenCookieGuard implements Guard
     private function getUserFromApi($token) {
         try {
 
-            return $this->provider->retrieveByToken($token);
+            return $this->provider->retrieveByToken(null, $token);
         } catch (\Exception $e) {;
             
             // Logga in caso di problemi con l'API
