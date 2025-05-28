@@ -44,7 +44,7 @@ class SSOAuthServiceProvider extends AuthServiceProvider
             ],
             'auth.guards.api' => [
                 'driver' => 'cookie_token',
-                'provider' => 'api-users',
+                'provider' => 'api_users',
                 'cookie' => 'auth_token', // opzionale
             ],
         ]);
