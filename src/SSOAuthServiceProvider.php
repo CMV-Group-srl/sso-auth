@@ -38,7 +38,7 @@ class SSOAuthServiceProvider extends AuthServiceProvider
         $router->aliasMiddleware('auth.api', AuthenticateWithApi::class);
 
         Auth::extend('cookie_token', function ($app, $name, array $config) {
-            $provider = Auth::createUserProvider($config['provider']);
+            $provider = Auth::createUserProvider($config['provider'] ?? 'api_users');
             $request = $app->make('request');
     
             return new TokenCookieGuard($provider, $request, $config['cookie'] ?? 'auth_token');
