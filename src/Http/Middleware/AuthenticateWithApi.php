@@ -24,9 +24,13 @@ class AuthenticateWithApi
                     . '?callback=' . urlencode(request()->fullUrl()));
         }
 
+        $response = $next($request);
+        if (!method_exists($response,'withCookie'))
+            return $response;
+        
         $token = request()->cookie('auth_token');
         $cookie = ApiCookie::make('auth_token', $token, config('session.lifetime', 120));
 
-        return $next($request)->withCookie($cookie);
+        return  $response->withCookie($cookie);
     }
 }
