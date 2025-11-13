@@ -3,10 +3,15 @@
 namespace Cmvgroup\SSOAuth\Auth;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
-class ApiUser implements Authenticatable
+class ApiUser extends Model implements Authenticatable
 {
     protected $attributes;
+
+    protected $primaryKey = 'ID_UTENTE';
+
+    protected $table = null;
 
     public function __construct(array $attributes)
     {
