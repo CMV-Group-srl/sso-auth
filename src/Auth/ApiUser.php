@@ -13,7 +13,7 @@ class ApiUser extends Model implements Authenticatable
 
     protected $table = null;
 
-    public function __construct(?array $attributes)
+    public function __construct(array $attributes = [])
     {
         $this->attributes = $attributes;
 
