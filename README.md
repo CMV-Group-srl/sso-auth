@@ -1,6 +1,6 @@
 # SSO Auth
 
-This package provides a guard for the a sinsgle-sing-on authentication system.
+This package provides a guard for the a single-sign-on authentication system.
 
 ## Installation
 
